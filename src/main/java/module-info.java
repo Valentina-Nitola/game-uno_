@@ -5,4 +5,6 @@ module com.example.gameuno {
 
     opens com.example.gameuno to javafx.fxml;
     exports com.example.gameuno;
+    exports com.example.gameuno.view;
+    opens com.example.gameuno.view to javafx.fxml;
 }

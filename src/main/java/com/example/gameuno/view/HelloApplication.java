@@ -1,8 +1,6 @@
-package com.example.gameuno;
+package com.example.gameuno.view;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
