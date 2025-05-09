@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.gameuno.controller.JuegoController"
+            prefHeight="600" prefWidth="800"
+            style="-fx-background-color: #f0f0f0;">
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" />
+    <VBox fx:id="contenedorJuego" spacing="20" alignment="CENTER"
+          AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20"
+          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <Label text="UNO - Minecraft Edition"
+               style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+
+        <Label fx:id="lblJugadorActual" text="Tu turno"
+               style="-fx-font-size: 18; -fx-text-fill: #444444;"/>
+
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Carta en mesa:" style="-fx-font-size: 16;"/>
+            <Label fx:id="lblCartaMesa"
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 15;
+                          -fx-border-color: black; -fx-border-radius: 5; -fx-background-color: white;"/>
+        </VBox>
+
+        <Button text="Tomar carta del mazo" onAction="#tomarCartaDelMazo"
+                style="-fx-font-size: 14; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Tu mano:" style="-fx-font-size: 16;"/>
+            <HBox fx:id="contenedorManoJugador" spacing="10" alignment="CENTER"/>
+        </VBox>
+
+    </VBox>
+</AnchorPane>
