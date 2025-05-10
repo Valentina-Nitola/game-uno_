@@ -3,6 +3,7 @@ package com.example.gameuno.controller;
 import com.example.gameuno.model.JuegoModel;
 import com.example.gameuno.model.JuegoModel.Carta;
 import com.example.gameuno.model.JugadorModel;
+import com.example.gameuno.model.NamePlayerModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -10,7 +11,9 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 
 public class JuegoController {
-	
+
+
+	@FXML private Label nicknameLabel;
 	@FXML private Label lblJugadorActual;
 	@FXML private Label lblCartaMesa;
 	@FXML private HBox contenedorManoJugador;
@@ -20,8 +23,17 @@ public class JuegoController {
 	private Carta cartaEnMesa;
 
 	//Instancia de losjugadores
+	private NamePlayerModel player;
 	JugadorModel jugador = new JugadorModel();
 	JugadorModel Cpu = new JugadorModel();
+
+	public void setPlayer(NamePlayerModel player) {
+		this.player = player;
+	}
+
+	public void showNicknameLabel() {
+		nicknameLabel.setText(player.getNickname());
+	}
 
 	@FXML
 	public void initialize() { //Wtf rios?
