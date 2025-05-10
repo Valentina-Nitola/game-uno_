@@ -1,38 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.gameuno.controller.JuegoController"
-            prefHeight="600" prefWidth="800"
-            style="-fx-background-color: #f0f0f0;">
-
-    <VBox fx:id="contenedorJuego" spacing="20" alignment="CENTER"
-          AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20"
-          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-
-        <Label text="UNO - Minecraft Edition"
-               style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
-
-        <Label fx:id="lblJugadorActual" text="Tu turno"
-               style="-fx-font-size: 18; -fx-text-fill: #444444;"/>
-
-        <VBox spacing="10" alignment="CENTER">
-            <Label text="Carta en mesa:" style="-fx-font-size: 16;"/>
-            <Label fx:id="lblCartaMesa"
-                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 15;
-                          -fx-border-color: black; -fx-border-radius: 5; -fx-background-color: white;"/>
-        </VBox>
-
-        <Button text="Tomar carta del mazo" onAction="#tomarCartaDelMazo"
-                style="-fx-font-size: 14; -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-
-        <VBox spacing="10" alignment="CENTER">
-            <Label text="Tu mano:" style="-fx-font-size: 16;"/>
-            <HBox fx:id="contenedorManoJugador" spacing="10" alignment="CENTER"/>
-        </VBox>
-
-    </VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane layoutY="385.0" prefHeight="215.0" prefWidth="750.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="1039.0">
+               <children>
+                  <HBox prefHeight="198.0" prefWidth="1043.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="184.0" prefWidth="130.0">
+                           <graphic>
+                              <ImageView fitHeight="184.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                           <opaqueInsets>
+                              <Insets left="20.0" right="10.0" />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
 </AnchorPane>
