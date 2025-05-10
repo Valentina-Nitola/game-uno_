@@ -14,15 +14,11 @@ public class JuegoView extends Stage {
 		FXMLLoader fxmlLoader = new FXMLLoader(
 				getClass().getResource("/com/example/gameuno/interfaces/juegoView.fxml")
 		);
-		
-		// Configurar la escena
-		Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-		
-		// Configurar el controlador y la ventana
+
+		Scene scene = new Scene(fxmlLoader.load());
 		this.controller = fxmlLoader.getController();
-		this.setTitle("UNO MINECRAFT - JUEGO");
+		this.setTitle("UNO MINECRAFT --> GAME");
 		this.setScene(scene);
-		this.setResizable(false);
 	}
 	
 	public JuegoController getController() {
