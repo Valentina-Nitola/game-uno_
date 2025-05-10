@@ -58,4 +58,4 @@ public class WildView extends Stage {
             private static WildView INSTANCE;
         }
     }
-}
+
