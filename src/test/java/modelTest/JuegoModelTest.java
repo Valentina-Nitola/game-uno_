@@ -8,7 +8,7 @@ public class JuegoModelTest {
  */
 public static void main(String[] args) {
     JuegoModel juego = new JuegoModel(); //instancia la clase que genera las cartas
-    ArrayList<JuegoModel.Carta> cartas = juego.CrearCartas();
+    ArrayList<JuegoModel.Carta> cartas = juego.crearCartas();
 
     //Muestra en consola todas las cartas en orden generado
     for (JuegoModel.Carta c : cartas) {
@@ -16,7 +16,7 @@ public static void main(String[] args) {
                 + c.getTipo() + c.getNumero() + ", Estado: " + c.getEstado());
     }
 
-    juego.Barajar(cartas); //Funcion que baraja las cartas creadas
+    juego.barajar(cartas); //Funcion que baraja las cartas creadas
 
     //Muestra en consola el orden de las cartas segun el algortimo de baraja
     System.out.println("Después de barajar:");
@@ -24,6 +24,5 @@ public static void main(String[] args) {
         System.out.println("Carta barajada con Color: " + c.getColor() + ", Tipo: "
                 + c.getTipo() + c.getNumero() + ", Estado: " + c.getEstado());
     }
-    juego.ContadorCartas(cartas); //Funcion que cuenta cuantas cartas hay en el arraylist
 }
 }
