@@ -87,4 +87,16 @@ public class JuegoModel {
 		}
 		System.out.println("Hay " + contador + " cartas");
 	}
+
+
+public static void CambioTurno(){
+
+	}
+
+
+
+
+
+
+
 }
