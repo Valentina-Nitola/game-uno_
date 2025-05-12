@@ -22,7 +22,7 @@ public class JuegoController {
 	private ArrayList<Carta> mazo;
 	private Carta cartaEnMesa;
 
-	//Instancia de losjugadores
+	//Instancia de los jugadores
 	private NamePlayerModel player;
 	JugadorModel jugador = new JugadorModel();
 	JugadorModel Cpu = new JugadorModel();

@@ -6,8 +6,8 @@ import java.util.Random;
 public class JuegoModel {
 	
 	//Constantes
-	public enum Color {ROJO, AMARILLO, AZUL, VERDE, NEGRO}
-	public enum Tipo {NUMERO, MASDOS, MASCUATRO, SALTO, COMODIN}
+	public enum Color {_RED, _YELLOW, _BLUE, _GREEN, NEGRO}
+	public enum Tipo {NUMERO, MASDOS, MASCUATRO, SKIP, COMODIN}
 	public enum Estado {MANO, JUGADA, MAZO}
 	
 	//Clase
@@ -45,25 +45,27 @@ public class JuegoModel {
 	public ArrayList<Carta> CrearCartas() {
 		ArrayList<Carta> NuevasCartas = new ArrayList<>();
 		for (int i = 0; i < 10; i++) {
-			NuevasCartas.add(new Carta("Rojo", "Numero", "Mazo"));
+			NuevasCartas.add(new Carta("_red", "Numero", "Mazo"));
 			NuevasCartas.getLast().setNumero(i);
-			NuevasCartas.add(new Carta("Verde", "Numero", "Mazo"));
+			NuevasCartas.add(new Carta("_green", "Numero", "Mazo"));
 			NuevasCartas.getLast().setNumero(i);
-			NuevasCartas.add(new Carta("Amarillo", "Numero", "Mazo"));
+			NuevasCartas.add(new Carta("_yellow", "Numero", "Mazo"));
 			NuevasCartas.getLast().setNumero(i);
-			NuevasCartas.add(new Carta("Azul", "Numero", "Mazo"));
+			NuevasCartas.add(new Carta("_blue", "Numero", "Mazo"));
 			NuevasCartas.getLast().setNumero(i);
 		}
 		for (int i = 0; i < 4; i++) {
 			NuevasCartas.add(new Carta("Negro", "MasCuatro", "Mazo"));
 			NuevasCartas.add(new Carta("Negro", "Comodin", "Mazo"));
 		}
-		NuevasCartas.add(new Carta("Rojo", "Salto", "Mazo"));
-		NuevasCartas.add(new Carta("Verde", "Salto", "Mazo"));
-		NuevasCartas.add(new Carta("Amarillo", "Salto", "Mazo"));
-		NuevasCartas.add(new Carta("Azul", "Salto", "Mazo"));
-		NuevasCartas.add(new Carta("Negro", "MasDos", "Mazo"));
-		NuevasCartas.add(new Carta("Negro", "MasDos", "Mazo"));
+		NuevasCartas.add(new Carta("_red", "skip", "Mazo"));
+		NuevasCartas.add(new Carta("_green", "skip", "Mazo"));
+		NuevasCartas.add(new Carta("_yellow", "skip", "Mazo"));
+		NuevasCartas.add(new Carta("_blue", "skip", "Mazo"));
+		NuevasCartas.add(new Carta("_red", "MasDos", "Mazo"));
+		NuevasCartas.add(new Carta("_green", "MasDos", "Mazo"));
+		NuevasCartas.add(new Carta("_yellow", "MasDos", "Mazo"));
+		NuevasCartas.add(new Carta("_blue", "MasDos", "Mazo"));
 		return NuevasCartas;
 	}
 	
