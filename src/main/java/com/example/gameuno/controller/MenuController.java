@@ -1,7 +1,7 @@
 package com.example.gameuno.controller;
 
+import com.example.gameuno.model.JugadorModel;
 import com.example.gameuno.model.MusicModel;
-import com.example.gameuno.model.NamePlayerModel;
 import com.example.gameuno.view.JuegoView;
 import com.example.gameuno.view.MenuView;
 import com.example.gameuno.view.TutorialView;
@@ -78,8 +78,8 @@ public class MenuController {
 	@FXML
 	private void iniciarjuego(ActionEvent event) throws IOException {
 		String nickname = txtNombre.getText();
-		NamePlayerModel player = new NamePlayerModel();
-		player.setNickname(nickname);
+		JugadorModel player = new JugadorModel();
+		player.setNombre(nickname);
 
 		// Validar si el nombre es válido
 		if (!player.isValid()) {
