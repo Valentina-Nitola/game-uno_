@@ -82,6 +82,7 @@ public class JuegoModel {
 			Cartas.set(j, temp);
 		}
 	}
+
 	public static void ContadorCartas(ArrayList<Carta> Cartas) {
 		int contador = 0;
 		for (int i=0; i < Cartas.size(); i++) {
@@ -90,10 +91,13 @@ public class JuegoModel {
 		System.out.println("Hay " + contador + " cartas");
 	}
 
-
 public static void CambioTurno(){
 
-	}
+}
+
+
+
+
 
 
 

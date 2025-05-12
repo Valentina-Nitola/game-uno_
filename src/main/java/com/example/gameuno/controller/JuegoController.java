@@ -3,7 +3,6 @@ package com.example.gameuno.controller;
 import com.example.gameuno.model.JuegoModel;
 import com.example.gameuno.model.JuegoModel.Carta;
 import com.example.gameuno.model.JugadorModel;
-import com.example.gameuno.model.NamePlayerModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -23,17 +22,9 @@ public class JuegoController {
 	private Carta cartaEnMesa;
 
 	//Instancia de los jugadores
-	private NamePlayerModel player;
 	JugadorModel jugador = new JugadorModel();
 	JugadorModel Cpu = new JugadorModel();
 
-	public void setPlayer(NamePlayerModel player) {
-		this.player = player;
-	}
-
-	public void showNicknameLabel() {
-		nicknameLabel.setText(player.getNickname());
-	}
 
 	@FXML
 	public void initialize() { //Wtf rios?
@@ -44,16 +35,9 @@ public class JuegoController {
 		JuegoModel modelo = new JuegoModel(); //instancia la clase modelo y crea las cartas y las baraja
 		mazo = modelo.CrearCartas();
 		JuegoModel.Barajar(mazo);
+		jugador.repartirCartasIniciales(mazo);//Llama a una funcion en el modeljugador que le da las 5 cartas iniciales
+		Cpu.repartirCartasIniciales(mazo);
 
-
-		jugador.Mano = new ArrayList<>(); //Cartas en la mano del jugador
-		for (int i = 0; i < 5; i++) { //Agrega las 5 cartas bajo la condicion
-			if (!mazo.isEmpty()) { //Si en el mazo se crearon las cartas y no esta vacio
-				Carta carta = mazo.remove(0); //la quita del mazo
-				carta.setEstado(JuegoModel.Estado.MANO); //se modifica el estado a mano del jugador
-				jugador.Mano.add(carta); //Se agrega al arraylist de la mano del jugador
-			}
-		}
 		if (!mazo.isEmpty()) { //Esto pone la carta en la mesa si el mazo no esta vacio
 			cartaEnMesa = mazo.remove(0);
 			cartaEnMesa.setEstado(JuegoModel.Estado.JUGADA);
@@ -122,13 +106,18 @@ public class JuegoController {
 	} //wtf rios por que?
 
 
+	//Entiendo que esto inicializa... el menu? por que? si nada se supone que lo esta llamando...
 	@FXML
-	private void tomarCartaDelMazo() {
+	private void tomarCartaDelMazo() { //¿Que se supone que hace esto Rios?
 		if (!mazo.isEmpty()) {
 			Carta nuevaCarta = mazo.remove(0);
 			nuevaCarta.setEstado(JuegoModel.Estado.MANO);
 			jugador.Mano.add(nuevaCarta);
 			actualizarManoJugador();
 		}
+	}
+
+	public void setPlayer(JugadorModel player) {
+		nicknameLabel.setText(player.getNombre());
 	}
 }
