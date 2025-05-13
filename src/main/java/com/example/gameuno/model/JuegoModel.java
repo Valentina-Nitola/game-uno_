@@ -38,6 +38,8 @@ public class JuegoModel {
 		public void setEstado(Estado estado) { this.estado = estado; }
 		public void setOculta(boolean oculta) {this.oculta = oculta;}
 		public void setNumero(int numero) {this.numero = numero;}
+		public void setColor(Color nuevoColor) {this.color = nuevoColor;}
+		
 	}
 	//Metodos - Funciones
 	
@@ -82,7 +84,7 @@ public class JuegoModel {
 			Cartas.set(j, temp);
 		}
 	}
-
+	
 	public static void ContadorCartas(ArrayList<Carta> Cartas) {
 		int contador = 0;
 		for (int i=0; i < Cartas.size(); i++) {
@@ -90,19 +92,5 @@ public class JuegoModel {
 		}
 		System.out.println("Hay " + contador + " cartas");
 	}
-
-public static void CambioTurno(){
-
-}
-
-
-
-
-
-
-
-
-
-
-
+	
 }
