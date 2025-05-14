@@ -3,13 +3,15 @@ package com.example.gameuno.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static java.awt.Color.yellow;
+
 public class JuegoModel {
 	
 	//Constantes
-	public enum Color {_RED, _YELLOW, _BLUE, _GREEN, NEGRO}
-	public enum Tipo {NUMERO, MASDOS, MASCUATRO, SKIP, COMODIN}
+	public enum Color {_red, _yellow, _blue, _green, negro}
+	public enum Tipo {numero, masdos, mascuatro, skip, comodin}
 	public enum Estado {MANO, JUGADA, MAZO}
-	
+
 	//Clase
 	public static class Carta {
 		//Atributos - variables
@@ -18,11 +20,12 @@ public class JuegoModel {
 		private Estado estado;
 		private boolean oculta;
 		private int numero;
+		public String ruta = "/com/example/gameuno/img/card_uno.png";
 		
 		//Constructor - this.var = var
 		public Carta(String color, String tipo, String estado) {
-			this.color = Color.valueOf(color.toUpperCase());
-			this.tipo = Tipo.valueOf(tipo.toUpperCase());
+			this.color = Color.valueOf(color.toLowerCase());
+			this.tipo = Tipo.valueOf(tipo.toLowerCase());
 			this.estado = Estado.valueOf(estado.toUpperCase());
 			this.oculta = true;
 			this.numero = 10; //Simboliza la compatibilidad de los comodines, y del 0-9 en cartas con numero
@@ -68,6 +71,20 @@ public class JuegoModel {
 		NuevasCartas.add(new Carta("_green", "MasDos", "Mazo"));
 		NuevasCartas.add(new Carta("_yellow", "MasDos", "Mazo"));
 		NuevasCartas.add(new Carta("_blue", "MasDos", "Mazo"));
+
+
+		for (int i = 0; i < NuevasCartas.size(); i++) { //Ruta de la imagen de las cartas
+			if (NuevasCartas.get(i).getTipo().equals(Tipo.numero)) NuevasCartas.get(i).ruta = "/com/example/gameuno/img/"
+					+ NuevasCartas.get(i).getNumero() + NuevasCartas.get(i).getColor() + ".png";
+
+			if(NuevasCartas.get(i).getTipo().equals(Tipo.masdos) || NuevasCartas.get(i).getTipo().equals(Tipo.skip))
+				NuevasCartas.get(i).ruta = "/com/example/gameuno/img/" +
+						NuevasCartas.get(i).getTipo() + NuevasCartas.get(i).getColor() + ".png";
+
+			if(NuevasCartas.get(i).getTipo().equals(Tipo.comodin) || NuevasCartas.get(i).getTipo().equals(Tipo.mascuatro))
+				NuevasCartas.get(i).ruta = "/com/example/gameuno/img/" + NuevasCartas.get(i).getTipo() + ".png";
+
+		}
 		return NuevasCartas;
 	}
 	
@@ -91,6 +108,9 @@ public class JuegoModel {
 			contador++;
 		}
 		System.out.println("Hay " + contador + " cartas");
+		for (int i= 0; i < Cartas.size(); i++) {
+	System.out.println(Cartas.get(i).ruta);
+		}
 	}
-	
+
 }
