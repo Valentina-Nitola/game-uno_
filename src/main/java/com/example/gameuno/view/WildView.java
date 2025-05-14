@@ -20,25 +20,25 @@ public class WildView {
 	
 	@FXML
 	private void seleccionarRojo() {
-		colorSeleccionado = JuegoModel.Color._RED;
+		colorSeleccionado = JuegoModel.Color._red;
 		cerrarVentana();
 	}
 	
 	@FXML
 	private void seleccionarAzul() {
-		colorSeleccionado = JuegoModel.Color._BLUE;
+		colorSeleccionado = JuegoModel.Color._blue;
 		cerrarVentana();
 	}
 	
 	@FXML
 	private void seleccionarVerde() {
-		colorSeleccionado = JuegoModel.Color._GREEN;
+		colorSeleccionado = JuegoModel.Color._green;
 		cerrarVentana();
 	}
 	
 	@FXML
 	private void seleccionarAmarillo() {
-		colorSeleccionado = JuegoModel.Color._YELLOW;
+		colorSeleccionado = JuegoModel.Color._yellow;
 		cerrarVentana();
 	}
 	
