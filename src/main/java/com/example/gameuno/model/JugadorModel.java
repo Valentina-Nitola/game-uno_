@@ -7,6 +7,7 @@ public class JugadorModel {
     public ArrayList<JuegoModel.Carta> Mano;
     private String nombre;
     private boolean turno;
+    private boolean Uno = false;
 
     //Constructor - this.var = var
     public JugadorModel() {
@@ -17,16 +18,18 @@ public class JugadorModel {
     public String getNombre() {return nombre;}
     public boolean isTurno() {return turno;}
     public ArrayList<JuegoModel.Carta> getMano() {return Mano;}
+    public boolean getUno() {return Uno;}
 
     //Setters
     public void setNombre(String nombre) {this.nombre = nombre;}
     public void setTurno(boolean turno) {this.turno = turno;}
+    public void setUno(boolean Uno) {this.Uno = Uno;}
 
 //Metodos - Funciones
 
     //Metodo para dar cartas iniciales
     public void repartirCartasIniciales(ArrayList<JuegoModel.Carta> mazo) {
-        for (int i = 0; i < 5; i++) { //Agrega las 5 cartas bajo la condicion
+        for (int i = 0; i < 2; i++) { //Agrega las 5 cartas bajo la condicion
             if (!mazo.isEmpty()) { //Si en el mazo se crearon las cartas y no esta vacio
                 JuegoModel.Carta carta = mazo.remove(0); //la quita del mazo
                 carta.setEstado(JuegoModel.Estado.MANO); //se modifica el estado a mano del jugador

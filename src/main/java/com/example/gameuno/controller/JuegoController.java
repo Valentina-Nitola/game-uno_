@@ -4,11 +4,12 @@ import com.example.gameuno.model.JuegoModel;
 import com.example.gameuno.model.JuegoModel.Carta;
 import com.example.gameuno.model.JugadorModel;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import com.example.gameuno.view.WildView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,14 +22,17 @@ import java.util.Objects;
 import java.util.Random;
 
 public class JuegoController {
-	
+
 	@FXML private Label nicknameLabel;
 	@FXML private Label lblJugadorActual;
-	@FXML private Label lblCartaMesa;
+	//@FXML private Label lblCartaMesa;
 	@FXML private HBox contenedorManoJugador;
-	@FXML private VBox contenedorJuego;
+	//@FXML private VBox contenedorJuego;
 	@FXML private ImageView descarte;
-	
+	@FXML private HBox contenedorManoCpu; //Dios, quien le puso asi a la mesita del cpu xd
+	//@FXML private ImageView CpuMesa;
+	@FXML private Button UnoButton;
+
 	private ArrayList<Carta> mazo;
 	private Carta cartaEnMesa;
 
@@ -39,7 +43,8 @@ public class JuegoController {
 	public void initialize() { //Wtf rios??
 		iniciarPartida();
 	}
-	
+
+
 	public void iniciarPartida() {
 		JuegoModel modelo = new JuegoModel(); //Se instancia el modelo, se crean las cartas y se barajan
 		mazo = modelo.CrearCartas();
@@ -55,7 +60,6 @@ public class JuegoController {
 			System.out.println(cartaEnMesa.getTipo());
 			System.out.println(cartaEnMesa.getColor());
 			System.out.println(cartaEnMesa.getNumero());
-
 		}
 		actualizarManoJugador();
 	}
@@ -64,39 +68,47 @@ public class JuegoController {
 	private void actualizarCartaEnMesa() {
 
 		if (cartaEnMesa != null) {
-			//String textoCarta = cartaEnMesa.getColor().toString() + " " + (cartaEnMesa.getTipo() == JuegoModel.Tipo.numero ? cartaEnMesa.getNumero() : cartaEnMesa.getTipo().toString());
-			//lblCartaMesa.setText(textoCarta);
 			Image imagen = new Image(getClass().getResourceAsStream(cartaEnMesa.ruta));
 			ImageView imagenView = new ImageView(imagen);
-			imagenView.setFitWidth(115); // Tamaño más grande para destacar la carta en mesa
+			imagenView.setFitWidth(125); // Tamaño más grande para destacar la carta en mesa
 			imagenView.setPreserveRatio(true);
 			descarte.setImage(imagen);
 			System.out.println(cartaEnMesa.ruta);
-
 		}
 	}
 
 
 	public void actualizarManoJugador() {
-		contenedorManoJugador.getChildren().clear();
+
+		contenedorManoJugador.getChildren().clear(); //Jugador
+		contenedorManoCpu.getChildren().clear(); //Cpu
+
 		for (Carta carta : jugador.Mano) { //Recorre el arreglo de cartas del jugador
-
-			//Label lblCarta = new Label();
-			//String textoCarta = carta.getColor().toString() + " " + (carta.getTipo() == JuegoModel.Tipo.numero ? carta.getNumero() : carta.getTipo().toString());
-			//lblCarta.setText(textoCarta);
-
-			// Carga la imagen de la carta desde resources/imagenes/
 			Image imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(carta.ruta)));
 			ImageView imagenView = new ImageView(imagen);
 			imagenView.setFitWidth(80);
-			imagenView.setPreserveRatio(true);
-
-
-			//lblCarta.setStyle("-fx-border-color: black; -fx-padding: 10px; -fx-margin: 5px;");
+			imagenView.setPreserveRatio(true); // Carga la imagen de la carta jugador
 			imagenView.setOnMouseClicked(event -> manejarSeleccionCarta(carta));
-			//contenedorManoJugador.getChildren().add(lblCarta);
 			contenedorManoJugador.getChildren().add(imagenView);
 		}
+
+		for (Carta carta : Cpu.Mano) { //(cambiar "reverso" por "ruta" si se quiere ver que cartas tiene Cpu
+			Image imagen2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream(carta.reverso)));
+			ImageView imagenView = new ImageView(imagen2);
+			imagenView.setFitWidth(80);
+			imagenView.setPreserveRatio(true);
+			//imagenView.setOnMouseClicked(event -> manejarSeleccionCarta(carta));
+			contenedorManoCpu.getChildren().add(imagenView);
+		}
+		if (jugador.Mano.size() == 1 || Cpu.Mano.size() == 1) {
+			UnoButton.setDisable(false);
+			UnoButton.setVisible(true);
+		} else {
+			UnoButton.setDisable(true);
+			UnoButton.setVisible(false);
+		}
+		if (jugador.Mano.size() > 1) jugador.setUno(false);
+		if (Cpu.Mano.size() > 1) Cpu.setUno(false);
 	}
 
 
@@ -120,6 +132,10 @@ public class JuegoController {
 			if (cartaSeleccionada.getTipo() == JuegoModel.Tipo.masdos) {
 				robarCartas(Cpu, 2);
 				lblJugadorActual.setText("CPU toma 2 cartas");
+				jugador.setTurno(false);
+				actualizarManoJugador();
+				actualizarCartaEnMesa();
+				turnoCPU();
 				return;
 			}
 			// Carta +4 (MASCUATRO)
@@ -155,24 +171,30 @@ public class JuegoController {
 
 
 	@FXML
-	private void tomarCartaDelMazo() { //Dice que si, hay cartas y es turno del jugador tome carta del mazo
-		if (!mazo.isEmpty() && jugador.isTurno()) {
-			Carta nuevaCarta = mazo.remove(0);
-			nuevaCarta.setEstado(JuegoModel.Estado.MANO);
-			jugador.Mano.add(nuevaCarta);
-			actualizarManoJugador();
-			lblJugadorActual.setText("Tomaste una carta. Turno de la CPU.");
-			jugador.setTurno(false);
-			turnoCPU(); // Turno automatico de la CPU
-
-
+	private void tomarCartaDelMazo() { //Cuando se presiona el boton, evalua si se puede tomar la carta
+		if (!mazo.isEmpty() && jugador.isTurno()) { //Si hay cartas y es tu turno
+			int contador = 0;
+			for (int i=0; i<jugador.getMano().size(); i++) { //Tienes jugadas?
+				if (esJugadaValida(jugador.getMano().get(i))) {contador++;}
+			}
+			if (contador == 0) { //solo si, no tienes una carta jugable
+				Carta nuevaCarta = mazo.remove(0);
+				nuevaCarta.setEstado(JuegoModel.Estado.MANO);
+				jugador.Mano.add(nuevaCarta);
+				actualizarManoJugador();
+				lblJugadorActual.setText("Tomaste una carta. Turno de la CPU.");
+				jugador.setTurno(false);
+				turnoCPU(); // Turno automatico de la CPU
+			}
 		}
 	}
-	
+
+
 	public void setPlayer(JugadorModel player) {
 		nicknameLabel.setText(player.getNombre());
 	}
-	
+
+
 	// HILO AQUIIIIIIIIIIIIIIIIIIIIIII --> Dios rios esto es todo lo de la cpu
 	private void turnoCPU() {
 		System.out.println("Turno de la CPU...");
@@ -186,14 +208,14 @@ public class JuegoController {
 
 			Carta cartaJugada = null;
 
-			for (Carta carta : Cpu.Mano) {
+			for (Carta carta : Cpu.Mano) { //Busca una carta jugable en su mano
 				if (esJugadaValida(carta)) {
 					cartaJugada = carta;
 					break;
 				}
 			}
 
-			if (cartaJugada != null) {
+			if (cartaJugada != null) { //Si encontro una carta jugable, la juega
 				Cpu.Mano.remove(cartaJugada);
 				cartaEnMesa = cartaJugada;
 				cartaEnMesa.setEstado(JuegoModel.Estado.JUGADA);
@@ -203,6 +225,7 @@ public class JuegoController {
 					Platform.runLater(() -> {
 						lblJugadorActual.setText("¡Tu turno fue saltado!");
 						actualizarCartaEnMesa();
+						actualizarManoJugador();
 						jugador.setTurno(false);
 						turnoCPU(); // La CPU vuelve a jugar
 					});
@@ -214,6 +237,7 @@ public class JuegoController {
 					Platform.runLater(() -> {
 						robarCartas(jugador, 2);
 						actualizarManoJugador();
+						actualizarCartaEnMesa();
 						if (lblJugadorActual != null) {
 							lblJugadorActual.setText("¡Has tomado 2 cartas!");
 						}
@@ -228,6 +252,7 @@ public class JuegoController {
 					Platform.runLater(() -> {
 						robarCartas(jugador, 4);
 						actualizarManoJugador();
+						actualizarCartaEnMesa();
 						if (lblJugadorActual != null) {
 							lblJugadorActual.setText("Has tomado 4 cartas");
 						}
@@ -259,6 +284,10 @@ public class JuegoController {
 					};
 					JuegoModel.Color colorAleatorio = coloresDisponibles[new Random().nextInt(coloresDisponibles.length)];
 					cartaJugada.setColor(colorAleatorio);
+					Platform.runLater(() -> {
+						actualizarManoJugador();
+						actualizarCartaEnMesa();
+					});
 					System.out.println("CPU cambió el color a: " + colorAleatorio);
 				}
 
@@ -266,12 +295,23 @@ public class JuegoController {
 						(cartaJugada.getTipo() == JuegoModel.Tipo.numero ?
 								cartaJugada.getNumero() : cartaJugada.getTipo()));
 
+				//Canta Uno Cpu
 				if (Cpu.Mano.size() == 1) {
 					System.out.println("CPU dice: UNO");
+					Cpu.setUno(true);
+					Platform.runLater(() -> actualizarManoJugador());
+				}
+				if (jugador.Mano.size() == 1 && !jugador.getUno()) {
+					System.out.println("Cpu te canto UNOOOO");
+					robarCartas(jugador, 1);
+					jugador.setUno(false);
+					Platform.runLater(() -> actualizarManoJugador());
 				}
 
 				if (Cpu.Mano.isEmpty()) {
-					Platform.runLater(() -> lblJugadorActual.setText("La CPU ha ganado."));
+					Platform.runLater(() -> {lblJugadorActual.setText("La CPU ha ganado.");
+					actualizarCartaEnMesa();
+					actualizarManoJugador();});
 					return;
 				}
 			} else if (!mazo.isEmpty()) {
@@ -284,8 +324,9 @@ public class JuegoController {
 			jugador.setTurno(true);
 
 			Platform.runLater(() -> {
-				actualizarCartaEnMesa();
 				lblJugadorActual.setText("Tu turno");
+				actualizarManoJugador();
+				actualizarCartaEnMesa();
 			});
 		}).start();
 	}
@@ -331,5 +372,21 @@ public class JuegoController {
 			}
 		}
 	}
-}
 
+	@FXML
+	private void On_Push_Uno(ActionEvent event) {
+		if (jugador.Mano.size() == 1) {
+			System.out.println(" yo cante uno");
+			jugador.setUno(true);
+		}
+		if (Cpu.Mano.size() == 1 && !Cpu.getUno()) {
+			System.out.println(" le cante unoooo");
+			robarCartas(Cpu, 1);
+			Cpu.setUno(false);
+		}
+		actualizarManoJugador();
+		UnoButton.setDisable(true);
+		UnoButton.setVisible(false);
+	}
+
+}
