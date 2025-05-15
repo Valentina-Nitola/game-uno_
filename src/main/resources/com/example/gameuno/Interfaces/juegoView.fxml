@@ -4,27 +4,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="600" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gameuno.controller.JuegoController">
-    <ImageView fitHeight="600.0" fitWidth="750.0" pickOnBounds="true" preserveRatio="true">
+    <ImageView fitHeight="600.0" fitWidth="750.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
         <image>
             <Image url="@../img/fondo3.png" />
         </image>
     </ImageView>
 
-    <VBox fx:id="contenedorJuego" alignment="CENTER" prefHeight="560.0" prefWidth="748.0" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <VBox alignment="CENTER" spacing="10">
+    <VBox id="Ciontenedor del juego" fx:id="contenedorJuego" alignment="CENTER" prefHeight="560.0" prefWidth="748.0" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" prefWidth="580.0" spacing="10">
             <children>
-                <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;">
+                <ScrollPane hbarPolicy="NEVER" hmax="0.5" opacity="0.9" prefHeight="200.0" prefWidth="200.0" rotate="180.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER" vmax="0.5">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="107.0" prefWidth="1645.0" style="-fx-background-color: transparent;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="120.0" prefWidth="1654.0" style="-fx-background-color: transparent;">
                             <children>
-                                <ImageView fitHeight="107.0" fitWidth="1645.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="CpuMesa" fitHeight="73.0" fitWidth="855.0" layoutX="-37.0" layoutY="12.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/barra.png" />
                                     </image>
                                 </ImageView>
-                                <HBox fx:id="contenedorManoJugador1" alignment="CENTER" spacing="10" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                <HBox fx:id="contenedorManoCpu" alignment="CENTER" spacing="10" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -35,12 +36,15 @@
                 <Label style="-fx-font-size: 16;" text="CPU" textFill="WHITE" />
             </children>
         </VBox>
-          <Label fx:id="CartaMesa" style="-fx-font-size: 16;" text="Carta en mesa:" textFill="WHITE" />
+          <Label fx:id="CartaMesa" style="-fx-font-size: 16;" text="Carta en mesa:" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
 
         <VBox alignment="CENTER" prefHeight="211.0" prefWidth="632.0" spacing="10">
             <children>
                 <!-- ✅ Aquí agregamos la etiqueta de turno -->
-                <Label fx:id="lblJugadorActual" style="-fx-font-size: 16; -fx-text-fill: white;" text="Turno actual" />
+                <Label fx:id="lblJugadorActual" ellipsisString="" prefHeight="40.0" prefWidth="88.0" style="-fx-font-size: 16; -fx-text-fill: white;" text="Turno actual" />
 
                 <HBox prefHeight="176.0" prefWidth="508.0">
                     <children>
@@ -69,43 +73,43 @@
                                 <Insets left="110.0" />
                             </HBox.margin>
                         </VBox>
-
-                        <Label prefHeight="174.0" prefWidth="116.0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 15; -fx-border-radius: 5; -fx-background-color: transparent;">
-                            <graphic>
-                                <ImageView fitHeight="144.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/deck_of_cards.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets right="30.0" />
-                            </HBox.margin>
-                        </Label>
-
-                        <Label fx:id="lblCartaMesa" prefHeight="174.0" prefWidth="116.0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-padding: 15; -fx-border-radius: 5; -fx-background-color: transparent;">
-                            <graphic>
-                                <ImageView fx:id="descarte" fitHeight="144.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                          <ImageView fitHeight="202.0" fitWidth="216.0" pickOnBounds="true" preserveRatio="true" rotate="-11.3">
+                              <image>
+                                  <Image url="@../img/deck_of_cards.png" />
+                              </image>
+                          </ImageView>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="162.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" rotate="-9.5">
                            <image>
                               <Image url="@../img/card_uno.png" />
-                           </image></ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </Label>
+                           </image>
+                           <StackPane.margin>
+                              <Insets right="60.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                                <ImageView fx:id="descarte" fitHeight="171.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" rotate="6.0">
+                           <image>
+                              <Image url="@../img/reserve_blue.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets right="32.0" top="5.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
+                  </StackPane>
 
-                        <Button prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: transparent;">
-                            <graphic>
+                        <Button fx:id="UnoButton" onAction="#On_Push_Uno" prefHeight="96.0" prefWidth="96.0" style="-fx-background-color: transparent;">
+                            <HBox.margin>
+                                <Insets top="50.0" />
+                            </HBox.margin>
+                     <graphic>
                                 <ImageView fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/uno.png" />
                                     </image>
                                 </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets top="50.0" />
-                            </HBox.margin>
+                     </graphic>
                         </Button>
                     </children>
                 </HBox>

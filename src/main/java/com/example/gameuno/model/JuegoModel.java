@@ -3,10 +3,9 @@ package com.example.gameuno.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static java.awt.Color.yellow;
 
 public class JuegoModel {
-	
+
 	//Constantes
 	public enum Color {_red, _yellow, _blue, _green, negro}
 	public enum Tipo {numero, masdos, mascuatro, skip, comodin}
@@ -18,10 +17,11 @@ public class JuegoModel {
 		private Color color;
 		private Tipo tipo;
 		private Estado estado;
-		private boolean oculta;
+		private boolean oculta = false;
 		private int numero;
 		public String ruta = "/com/example/gameuno/img/card_uno.png";
-		
+		public String reverso = "/com/example/gameuno/img/card_uno.png";
+
 		//Constructor - this.var = var
 		public Carta(String color, String tipo, String estado) {
 			this.color = Color.valueOf(color.toLowerCase());
@@ -30,7 +30,6 @@ public class JuegoModel {
 			this.oculta = true;
 			this.numero = 10; //Simboliza la compatibilidad de los comodines, y del 0-9 en cartas con numero
 		}
-		
 		//Getters
 		public Color getColor() {return color;}
 		public Tipo getTipo() {return tipo;}
@@ -38,14 +37,13 @@ public class JuegoModel {
 		public boolean isOculta() {return oculta;}
 		public int getNumero() {return numero;}
 		//Setters
-		public void setEstado(Estado estado) { this.estado = estado; }
+		public void setEstado(Estado estado) {this.estado = estado;}
 		public void setOculta(boolean oculta) {this.oculta = oculta;}
 		public void setNumero(int numero) {this.numero = numero;}
 		public void setColor(Color nuevoColor) {this.color = nuevoColor;}
-		
 	}
 	//Metodos - Funciones
-	
+
 	//Creamos todas las cartas
 	public ArrayList<Carta> CrearCartas() {
 		ArrayList<Carta> NuevasCartas = new ArrayList<>();
@@ -72,23 +70,24 @@ public class JuegoModel {
 		NuevasCartas.add(new Carta("_yellow", "MasDos", "Mazo"));
 		NuevasCartas.add(new Carta("_blue", "MasDos", "Mazo"));
 
+		//Ruta de la imagen de las cartas
+		for (int i = 0; i < NuevasCartas.size(); i++) {
+			if (NuevasCartas.get(i).getTipo().equals(Tipo.numero))
+				NuevasCartas.get(i).ruta = "/com/example/gameuno/img/"
+						+ NuevasCartas.get(i).getNumero() + NuevasCartas.get(i).getColor() + ".png";
 
-		for (int i = 0; i < NuevasCartas.size(); i++) { //Ruta de la imagen de las cartas
-			if (NuevasCartas.get(i).getTipo().equals(Tipo.numero)) NuevasCartas.get(i).ruta = "/com/example/gameuno/img/"
-					+ NuevasCartas.get(i).getNumero() + NuevasCartas.get(i).getColor() + ".png";
-
-			if(NuevasCartas.get(i).getTipo().equals(Tipo.masdos) || NuevasCartas.get(i).getTipo().equals(Tipo.skip))
+			if (NuevasCartas.get(i).getTipo().equals(Tipo.masdos) || NuevasCartas.get(i).getTipo().equals(Tipo.skip))
 				NuevasCartas.get(i).ruta = "/com/example/gameuno/img/" +
 						NuevasCartas.get(i).getTipo() + NuevasCartas.get(i).getColor() + ".png";
 
-			if(NuevasCartas.get(i).getTipo().equals(Tipo.comodin) || NuevasCartas.get(i).getTipo().equals(Tipo.mascuatro))
+			if (NuevasCartas.get(i).getTipo().equals(Tipo.comodin) || NuevasCartas.get(i).getTipo().equals(Tipo.mascuatro))
 				NuevasCartas.get(i).ruta = "/com/example/gameuno/img/" + NuevasCartas.get(i).getTipo() + ".png";
 
 		}
 		return NuevasCartas;
 	}
-	
-	
+
+
 	//Crear algoritmo para barajar
 	//Algoritmo de Fisher-Yates
 	public static void Barajar(ArrayList<Carta> Cartas) {
@@ -101,16 +100,15 @@ public class JuegoModel {
 			Cartas.set(j, temp);
 		}
 	}
-	
+
 	public static void ContadorCartas(ArrayList<Carta> Cartas) {
 		int contador = 0;
-		for (int i=0; i < Cartas.size(); i++) {
+		for (int i = 0; i < Cartas.size(); i++) {
 			contador++;
 		}
 		System.out.println("Hay " + contador + " cartas");
-		for (int i= 0; i < Cartas.size(); i++) {
-	System.out.println(Cartas.get(i).ruta);
+		for (int i = 0; i < Cartas.size(); i++) {
+			System.out.println(Cartas.get(i).ruta);
 		}
 	}
-
 }
