@@ -128,7 +128,16 @@ public class MenuController {
 	 * @param event Evento de acción generado por el clic
 	 */
 	@FXML
-	private void ayuda(ActionEvent event) {
+	private void ayuda(ActionEvent event) throws IOException {
+		String nickname = txtNombre.getText();
+		JugadorModel player = new JugadorModel();
+		player.setNombre(nickname);
+
+		// Validación del nombre
+		if (!player.isValid()) {
+			mostrarErrorNombre();
+			return;
+		}
 		try {
 			TutorialView tutorialView = TutorialView.getInstance();
 			tutorialView.show(); // Muestra la vista del tutorial

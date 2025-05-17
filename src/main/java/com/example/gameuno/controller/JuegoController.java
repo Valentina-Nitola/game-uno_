@@ -514,9 +514,12 @@ public class JuegoController {
 	 */
 	@FXML
 	private void help(ActionEvent event) throws IOException {
-		System.out.println("Iniciar tutorial");
-		TutorialView tutorialView = TutorialView.getInstance();
-		tutorialView.show();
+		try {
+			TutorialView tutorialView = TutorialView.getInstance();
+			tutorialView.show(); // Muestra la vista del tutorial
+		} catch (IOException e) {
+			System.err.println("Error al abrir el tutorial: " + e.getMessage());
+		}
 	}
     /*
 	@FXML
