@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * Clase principal que inicia la aplicación Sudoku.
+ * Clase principal que inicia la aplicación GAME UNO.
  * @author Valentina Nitola
  * @version 1.0
  */

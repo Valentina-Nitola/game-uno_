@@ -1,7 +1,7 @@
 package com.example.gameuno.controller;
 
+import com.example.gameuno.model.JugadorModel;
 import com.example.gameuno.model.MusicModel;
-import com.example.gameuno.model.NamePlayerModel;
 import com.example.gameuno.view.JuegoView;
 import com.example.gameuno.view.MenuView;
 import com.example.gameuno.view.TutorialView;
@@ -16,47 +16,63 @@ import java.net.URL;
 
 /**
  * Controlador para la vista del menú principal del juego UNO.
- * Maneja las interacciones del usuario en la pantalla de menú.
+ * Maneja las interacciones del usuario en la pantalla de menú,
+ * incluyendo la configuración inicial, control de música y navegación
+ * entre vistas.
+ *
+ * @author Valentina Nitola
+ * @version 1.1.3
  */
 public class MenuController {
 
-	// Elementos de la vista inyectados desde FXML
-	@FXML private Button btnSonido;
-	@FXML private TextField txtNombre;
-
+	// Elementos de la interfaz gráfica
 
 	/**
-	 * Método que se ejecuta al cargar la vista del menú.
-	 * Inicializa la música y actualiza el estado del botón de música.
+	 * Botón para controlar el estado de la música del juego
+	 */
+	@FXML private Button btnSonido;
+
+	/**
+	 * Campo de texto para ingresar el nombre del jugador
+	 */
+	@FXML private TextField txtNombre;
+
+	/**
+	 * Método de inicialización que se ejecuta al cargar la vista.
+	 * Configura la música del juego y actualiza el estado visual del botón de música.
 	 */
 	@FXML
 	public void initialize() {
-		MusicModel.getInstance();
-		actualizarBotonMusica();
+		MusicModel.getInstance(); // Inicializa el reproductor de música
+		actualizarBotonMusica(); // Configura la imagen inicial del botón
 	}
 
 	/**
-	 * Método que se ejecuta al hacer clic en el botón de música.
-	 * Alterna entre encender y apagar la música, y actualiza la imagen del botón.
+	 * Maneja el evento de clic en el botón de música.
+	 * Alterna el estado de la música entre encendido/apagado y actualiza
+	 * la imagen del botón.
 	 *
-	 * @param event Evento generado al hacer clic en el botón.
+	 * @param event Evento de acción generado por el clic
 	 */
 	@FXML
 	private void musica(ActionEvent event) {
-		MusicModel.getInstance().toggleMusic();
-		actualizarBotonMusica();
+		MusicModel.getInstance().toggleMusic(); // Cambia el estado de la música
+		actualizarBotonMusica(); // Actualiza la imagen del botón
 	}
 
 	/**
-	 * Actualiza la imagen del botón de música dependiendo si la música está activada o no.
+	 * Actualiza la imagen del botón de música según su estado actual.
+	 * Muestra un ícono diferente para música encendida/apagada.
 	 */
 	private void actualizarBotonMusica() {
 		boolean isMusicOn = MusicModel.getInstance().isMusicOn();
 
+		// Selecciona la ruta de la imagen según el estado
 		String imgPath = isMusicOn
 				? "/com/example/gameuno/img/on.png"
 				: "/com/example/gameuno/img/off.png";
 
+		// Carga y configura la imagen
 		URL imgURL = getClass().getResource(imgPath);
 		if (imgURL != null) {
 			Image img = new Image(imgURL.toString());
@@ -70,18 +86,19 @@ public class MenuController {
 	}
 
 	/**
-	 * Abre la vista del juego principal al hacer clic en el botón correspondiente.
+	 * Maneja el inicio de una nueva partida.
+	 * Valida el nombre del jugador y abre la vista del juego principal.
 	 *
-	 * @param event Evento generado al hacer clic en el botón "Iniciar juego".
-	 * @throws IOException Si ocurre un error al cargar la vista del juego.
+	 * @param event Evento de acción generado por el clic
+	 * @throws IOException Si ocurre un error al cargar la vista del juego
 	 */
 	@FXML
 	private void iniciarjuego(ActionEvent event) throws IOException {
 		String nickname = txtNombre.getText();
-		NamePlayerModel player = new NamePlayerModel();
-		player.setNickname(nickname);
+		JugadorModel player = new JugadorModel();
+		player.setNombre(nickname);
 
-		// Validar si el nombre es válido
+		// Validación del nombre
 		if (!player.isValid()) {
 			mostrarErrorNombre();
 			return;
@@ -89,15 +106,16 @@ public class MenuController {
 
 		System.out.println("Iniciar juego");
 
-		// Obtener la instancia de JuegoView
+		// Configuración y apertura de la vista del juego
 		JuegoView juegoView = JuegoView.getInstance();
-		juegoView.getController().setPlayer(player);
-		MenuView.getInstance().close(); // Cerrar el menú
-		juegoView.show(); // Mostrar la vista del juego
+		juegoView.getController().setPlayer(player); // Pasa el jugador al controlador del juego
+		MenuView.getInstance().close(); // Cierra el menú actual
+		juegoView.show(); // Muestra la vista del juego
 	}
 
 	/**
-	 * Muestra un mensaje de error cuando no se ingresa nombre.
+	 * Muestra un mensaje de error cuando no se ingresa un nombre válido.
+	 * Cambia el estilo del campo de texto para indicar el error.
 	 */
 	private void mostrarErrorNombre() {
 		txtNombre.setPromptText("¡Ingresa tu nombre!");
@@ -105,13 +123,15 @@ public class MenuController {
 	}
 
 	/**
-	 * boton ayuda
+	 * Maneja la apertura de la vista del tutorial.
+	 *
+	 * @param event Evento de acción generado por el clic
 	 */
 	@FXML
 	private void ayuda(ActionEvent event) {
 		try {
 			TutorialView tutorialView = TutorialView.getInstance();
-			tutorialView.show();
+			tutorialView.show(); // Muestra la vista del tutorial
 		} catch (IOException e) {
 			System.err.println("Error al abrir el tutorial: " + e.getMessage());
 		}
