@@ -25,7 +25,7 @@ public class TutorialView extends Stage {
      */
     public TutorialView() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                HelloApplication.class.getResource("/com/example/gameuno/view/tutorialView.fxml")
+                HelloApplication.class.getResource("/com/example/gameuno/Interfaces/tutorialView.fxml")
         );
         Scene scene = new Scene(fxmlLoader.load());
         this.controller = fxmlLoader.getController();
