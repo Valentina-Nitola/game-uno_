@@ -10,7 +10,7 @@ public class JuegoView extends Stage {
 	private JuegoController controller;
 	
 	private JuegoView() throws IOException {
-		// Cargar el FXML
+
 		FXMLLoader fxmlLoader = new FXMLLoader(
 				getClass().getResource("/com/example/gameuno/interfaces/juegoView.fxml")
 		);
