@@ -52,7 +52,7 @@ public class AlertBox {
      * @param title   Título de la alerta.
      * @param message Mensaje a mostrar.
      */
-    public static void showInfo(String title, String message) {
+    public static void confirm(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

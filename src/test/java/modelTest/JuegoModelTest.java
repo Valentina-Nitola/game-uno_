@@ -1,11 +1,16 @@
 package modelTest;
 import com.example.gameuno.model.JuegoModel;
 import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class JuegoModelTest {
+class JuegoModelTest {
 /**
  * Clase que se encarga de comprobar si las funciones y clases del modelo del juego funcionan
  */
+//@Test
 public static void main(String[] args) {
     JuegoModel juego = new JuegoModel(); //instancia la clase que genera las cartas
     ArrayList<JuegoModel.Carta> cartas = juego.CrearCartas();
