@@ -1,12 +1,11 @@
 package com.example.gameuno.controller;
 
+import com.example.gameuno.model.CartaNoValidaException;
 import com.example.gameuno.model.JuegoModel;
 import com.example.gameuno.model.JuegoModel.Carta;
 import com.example.gameuno.model.JugadorModel;
 import com.example.gameuno.model.MusicModel;
 import com.example.gameuno.util.AlertBox;
-import com.example.gameuno.view.JuegoView;
-import com.example.gameuno.view.MenuView;
 import com.example.gameuno.view.TutorialView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,11 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import com.example.gameuno.view.WildView;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
@@ -177,55 +171,70 @@ public class JuegoController {
 
 	/**
 	 * Maneja la selección de una carta por parte del jugador humano.
+	 * Lanza y captura una excepción personalizada si la jugada no es válida.
+	 *
 	 * @param cartaSeleccionada La carta que el jugador intenta jugar
 	 */
 	private void manejarSeleccionCarta(Carta cartaSeleccionada) {
-		if (!jugador.isTurno()) return;
-		if (esJugadaValida(cartaSeleccionada)) {
+		if (!jugador.isTurno()) {
+			return;
+		}
+
+		try {
+			// 1) Comprueba si la jugada es válida; si no, lanza excepción
+			if (!esJugadaValida(cartaSeleccionada)) {
+				throw new CartaNoValidaException(
+						"No puedes jugar " + cartaSeleccionada +
+								" porque no coincide con la carta en mesa."
+				);
+			}
+
+			// 2) Lógica normal para jugar la carta
 			jugador.Mano.remove(cartaSeleccionada);
 			cartaEnMesa = cartaSeleccionada;
 			cartaEnMesa.setEstado(JuegoModel.Estado.JUGADA);
 			actualizarCartaEnMesa();
 			actualizarManoJugador();
 
-			// Efectos de cartas especiales
-			if (cartaSeleccionada.getTipo() == JuegoModel.Tipo.skip) {
-				lblJugadorActual.setText("¡La CPU pierde su turno!");
-				jugador.setTurno(true);
-				return;
+			// 3) Efectos de cartas especiales
+			switch (cartaSeleccionada.getTipo()) {
+				case skip:
+					lblJugadorActual.setText("¡La CPU pierde su turno!");
+					jugador.setTurno(true);
+					return;
+				case masdos:
+					robarCartas(Cpu, 2);
+					lblJugadorActual.setText("CPU toma 2 cartas");
+					jugador.setTurno(false);
+					actualizarManoJugador();
+					actualizarCartaEnMesa();
+					turnoCPU();
+					return;
+				case mascuatro:
+					robarCartas(Cpu, 4);
+					lblJugadorActual.setText("CPU roba 4 cartas");
+					mostrarSeleccionColor(true);
+					return;
+				case comodin:
+					mostrarSeleccionColor(true);
+					return;
+				default:
+					break;
 			}
 
-			if (cartaSeleccionada.getTipo() == JuegoModel.Tipo.masdos) {
-				robarCartas(Cpu, 2);
-				lblJugadorActual.setText("CPU toma 2 cartas");
-				jugador.setTurno(false);
-				actualizarManoJugador();
-				actualizarCartaEnMesa();
-				turnoCPU();
-				return;
-			}
-
-			if (cartaSeleccionada.getTipo() == JuegoModel.Tipo.mascuatro) {
-				robarCartas(Cpu, 4);
-				lblJugadorActual.setText("CPU roba 4 cartas");
-				mostrarSeleccionColor(true);
-				return;
-			}
-
-			if (cartaSeleccionada.getTipo() == JuegoModel.Tipo.comodin) {
-				mostrarSeleccionColor(true);
-				return;
-			}
-
+			// 4) Verifica victoria
 			if (jugador.Mano.isEmpty()) {
 				lblJugadorActual.setText("¡Ganaste!");
 				return;
 			}
 
+			// 5) Pasa el turno a la CPU
 			jugador.setTurno(false);
 			turnoCPU();
-		} else {
-			lblJugadorActual.setText("Jugada no válida");
+
+		} catch (CartaNoValidaException ex) {
+			// 6) Captura la excepción y muestra una alerta al usuario
+			AlertBox.showError("Jugada inválida", ex.getMessage());
 		}
 	}
 
@@ -516,6 +525,7 @@ public class JuegoController {
 			System.err.println("Error al abrir el tutorial: " + e.getMessage());
 		}
 	}
+
     /*
 	@FXML
 	private void reset(ActionEvent event) throws IOException {

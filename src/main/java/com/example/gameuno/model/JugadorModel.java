@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @version 1.1.3
  */
-public class JugadorModel {
+public class JugadorModel  {
 
     // Atributos
 
