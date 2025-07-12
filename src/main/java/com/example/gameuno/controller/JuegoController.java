@@ -6,6 +6,7 @@ import com.example.gameuno.model.JugadorModel;
 import com.example.gameuno.model.MusicModel;
 import com.example.gameuno.util.AlertBox;
 import com.example.gameuno.view.JuegoView;
+import com.example.gameuno.view.MenuView;
 import com.example.gameuno.view.TutorialView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -415,18 +416,12 @@ public class JuegoController {
 	 */
 	private void mostrarSeleccionColor(boolean esJugadorHumano) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/gameuno/interfaces/wildview.fxml"));
-			Parent root = loader.load();
 
-			WildView wildView = loader.getController();
+			WildView wildView = WildView.getInstance();
+			wildView.showAndWait();
+			WildController wildController = wildView.getController();
+			JuegoModel.Color nuevoColor = wildController.getColorSeleccionado();
 
-			Stage stage = new Stage();
-			stage.setTitle("Selecciona un color");
-			stage.setScene(new Scene(root));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.showAndWait();
-
-			JuegoModel.Color nuevoColor = wildView.getColorSeleccionado();
 			if (nuevoColor != null) {
 				cartaEnMesa.setColor(nuevoColor);
 				actualizarCartaEnMesa();

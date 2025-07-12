@@ -1,49 +1,64 @@
 package com.example.gameuno.view;
 
-import com.example.gameuno.model.JuegoModel;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import com.example.gameuno.controller.WildController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class WildView {
-	
-	private JuegoModel.Color colorSeleccionado;
-	
-	@FXML private Button btnRed;
-	@FXML private Button btnBlue;
-	@FXML private Button btnGreen;
-	@FXML private Button btnYellow;
-	
-	public JuegoModel.Color getColorSeleccionado() {
-		return colorSeleccionado;
+
+import java.io.IOException;
+
+/**
+ * Clase que representa la vista del tutorial del juego Sudoku.
+ *
+ * @author Valentina Nitola
+ * @version 1.0.
+ */
+public class WildView extends Stage {
+	/**
+	 * Controlador asociado a la vista del Wild.
+	 */
+	private WildController controller;
+	/**
+	 * Constructor que inicializa la vista del tutorial cargando el archivo FXML correspondiente.
+	 *
+	 * @throws IOException si ocurre un error al cargar el archivo FXML.
+	 */
+	public WildView() throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(
+				HelloApplication.class.getResource("/com/example/gameuno/Interfaces/WildView.fxml")
+		);
+		Scene scene = new Scene(fxmlLoader.load());
+		this.controller = fxmlLoader.getController();
+		this.setTitle("UNO MINECRAFT - TUTORIAL");
+		this.setScene(scene);
 	}
-	
-	@FXML
-	private void seleccionarRojo() {
-		colorSeleccionado = JuegoModel.Color._red;
-		cerrarVentana();
+	/**
+	 * Obtiene el controlador de la vista del tutorial.
+	 *
+	 * @return el controlador de la vista del tutorial.
+	 */
+	public WildController getController() {
+		return controller;
 	}
-	
-	@FXML
-	private void seleccionarAzul() {
-		colorSeleccionado = JuegoModel.Color._blue;
-		cerrarVentana();
+	/**
+	 *
+	 * @return instancia única de {@link WildView}.
+	 * @throws IOException si ocurre un error al crear la instancia.
+	 */
+	public static WildView getInstance() throws IOException {
+		if (WildViewHolder.INSTANCE == null) {
+			WildViewHolder.INSTANCE = new WildView();
+		}
+		return WildViewHolder.INSTANCE;
 	}
-	
-	@FXML
-	private void seleccionarVerde() {
-		colorSeleccionado = JuegoModel.Color._green;
-		cerrarVentana();
-	}
-	
-	@FXML
-	private void seleccionarAmarillo() {
-		colorSeleccionado = JuegoModel.Color._yellow;
-		cerrarVentana();
-	}
-	
-	private void cerrarVentana() {
-		Stage stage = (Stage) btnRed.getScene().getWindow(); // Puedes usar cualquier botón aquí
-		stage.close();
+	/**
+	 * Clase interna estática que implementa el patrón Singleton para {@link TutorialView}.
+	 */
+	private static class WildViewHolder {
+		/**
+		 * Instancia única de {@link WildView}.
+		 */
+		private static WildView INSTANCE;
 	}
 }
