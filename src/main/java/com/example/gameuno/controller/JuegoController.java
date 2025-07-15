@@ -27,6 +27,11 @@ import java.util.Random;
  * Controlador principal del juego UNO.
  * Gestiona la lógica del juego, incluyendo el manejo de turnos, cartas especiales,
  * interacción con la CPU y actualización de la interfaz gráfica.
+ * <p>
+ * Este controlador se encarga de las interacciones entre el modelo, la vista y la lógica del juego.
+ * Los métodos principales incluyen la inicialización del juego, el manejo de los turnos de los jugadores
+ * (humano y CPU), la actualización de las cartas en la interfaz gráfica, y la interacción con la música del juego.
+ * </p>
  *
  * @author Daniel, Moreno y Valentina
  * @version 2.3.6
@@ -159,10 +164,11 @@ public class JuegoController {
 		// Controla la visibilidad del botón UNO
 		if (jugador.Mano.size() == 1 || Cpu.Mano.size() == 1) {
 			UnoButton.setDisable(false);
-			UnoButton.setVisible(true);
+			UnoButton.setOpacity(1.0);
+			GuerraUno();
 		} else {
 			UnoButton.setDisable(true);
-			UnoButton.setVisible(false);
+			UnoButton.setOpacity(0.4);
 		}
 
 		if (jugador.Mano.size() > 1) jugador.setUno(false);
@@ -233,7 +239,7 @@ public class JuegoController {
 			turnoCPU();
 
 		} catch (CartaNoValidaException ex) {
-			// 6) Captura la excepción y muestra una alerta al usuario
+			// 6) Captura la excepción y muestra una alerta al jugador
 			AlertBox.showError("Jugada inválida", ex.getMessage());
 		}
 	}
@@ -381,19 +387,6 @@ public class JuegoController {
 						(cartaJugada.getTipo() == JuegoModel.Tipo.numero ?
 								cartaJugada.getNumero() : cartaJugada.getTipo()));
 
-				// Lógica para gritar UNO
-				if (Cpu.Mano.size() == 1) {
-					System.out.println("CPU dice: UNO");
-					Cpu.setUno(true);
-					Platform.runLater(() -> actualizarManoJugador());
-				}
-				if (jugador.Mano.size() == 1 && !jugador.getUno()) {
-					System.out.println("Cpu te canto UNOOOO");
-					robarCartas(jugador, 1);
-					jugador.setUno(false);
-					Platform.runLater(() -> actualizarManoJugador());
-				}
-
 				if (Cpu.Mano.isEmpty()) {
 					Platform.runLater(() -> {
 						lblJugadorActual.setText("La CPU ha ganado.");
@@ -416,7 +409,66 @@ public class JuegoController {
 				actualizarManoJugador();
 				actualizarCartaEnMesa();
 			});
-		}).start();
+		}).start(); //Inicia el Hilo
+	} //Fin Turno CPU
+
+	/**
+	 * Maneja el evento de presionar el botón UNO.
+	 * @param event El evento de acción
+	 */
+	@FXML
+	private void On_Push_Uno(ActionEvent event) {
+		if (jugador.Mano.size() == 1) {
+			System.out.println(" yo cante uno");
+			jugador.setUno(true);
+		}
+		if (Cpu.Mano.size() == 1 && !Cpu.getUno()) {
+			System.out.println(" le cante unoooo");
+			robarCartas(Cpu, 1);
+			Cpu.setUno(false);
+		}
+		actualizarManoJugador();
+		UnoButton.setDisable(true);
+		UnoButton.setOpacity(0.4); //Modificar la opacidad en lugar de visibilidad
+	}
+
+	/**
+	 * Realiza una lógica relacionada con el "UNO" en el juego.
+	 */
+	void GuerraUno() {
+		//Hilo 2 -> Canto del UNO
+		new Thread(() -> {
+			Random random = new Random(); // Para generar tiempo aleatorio
+
+			while (true) { //Logica de Cantar el Uno para player y cpu
+				try {
+					Thread.sleep(2000); // Revisa cada 2 segundos
+
+					if (Cpu.Mano.size() == 1 && !Cpu.getUno()) {
+						// Simula que la CPU "piensa" entre 2 y 4 segundos antes de decir UNO
+						int delay = 2000 + random.nextInt(4000); // 2000 a 4000 ms
+						Thread.sleep(delay);
+
+						// Vuelve a verificar que aún tenga solo 1 carta (puede haber cambiado mientras dormía)
+						if (Cpu.Mano.size() == 1 && !Cpu.getUno()) {
+							System.out.println("CPU dice: UNO (después de " + delay + " ms)");
+							Cpu.setUno(true);
+							Platform.runLater(() -> actualizarManoJugador());
+						}
+					}
+					if (jugador.Mano.size() == 1 && !jugador.getUno()) {
+						System.out.println("¡CPU te gritó UNO antes que tú!");
+						robarCartas(jugador, 1);
+						jugador.setUno(false); // opcional: ya fue penalizado
+						Platform.runLater(() -> actualizarManoJugador());
+					}
+
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					break; // por si queremos detener el hilo más adelante
+				}
+			}
+		}).start();//Inicia el hilo
 	}
 
 	/**
@@ -463,26 +515,6 @@ public class JuegoController {
 	}
 
 	/**
-	 * Maneja el evento de presionar el botón UNO.
-	 * @param event El evento de acción
-	 */
-	@FXML
-	private void On_Push_Uno(ActionEvent event) {
-		if (jugador.Mano.size() == 1) {
-			System.out.println(" yo cante uno");
-			jugador.setUno(true);
-		}
-		if (Cpu.Mano.size() == 1 && !Cpu.getUno()) {
-			System.out.println(" le cante unoooo");
-			robarCartas(Cpu, 1);
-			Cpu.setUno(false);
-		}
-		actualizarManoJugador();
-		UnoButton.setDisable(true);
-		UnoButton.setVisible(false);
-	}
-
-	/**
 	 * Actualiza la imagen del botón de música según su estado.
 	 */
 	private void actualizarBotonMusica() {
@@ -525,36 +557,4 @@ public class JuegoController {
 			System.err.println("Error al abrir el tutorial: " + e.getMessage());
 		}
 	}
-
-    /*
-	@FXML
-	private void reset(ActionEvent event) throws IOException {
-		boolean confirmado = AlertBox.showConfirmAlertBox(
-				"Confirmar nuevo juego",
-				"¿Estás seguro de que deseas iniciar un nuevo juego?",
-				"Recuerda que se perderá el progreso actual."
-		);
-
-		if (confirmado) {
-			// 1. Crear nuevo mazo
-			JuegoModel juego = new JuegoModel();
-			ArrayList<JuegoModel.Carta> mazo = juego.CrearCartas();
-			JuegoModel.Barajar(mazo);
-
-			// 2. Repartir cartas nuevas
-			jugador = new JugadorModel(); // Asigna jugador humano
-			Cpu = new JugadorModel();     // Asigna CPU
-
-			jugador.repartirCartasIniciales(mazo);
-			Cpu.repartirCartasIniciales(mazo);
-
-			// 3. Actualizar la vista
-			actualizarManoJugador(); // Tu método ya maneja todo esto
-			actualizarCartaEnMesa();
-
-			JuegoView.getInstance().close();  // cierra la vista actual
-			JuegoView.getInstance().show();   // vuelve a mostrarla
-		}
-	}*/
-
 }
